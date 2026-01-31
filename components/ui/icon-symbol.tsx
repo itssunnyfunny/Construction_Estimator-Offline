@@ -28,6 +28,9 @@ const MAPPING = {
   'trash.fill': 'delete',
   'gear': 'settings',
   'doc.on.doc': 'content-copy',
+  'magnifyingglass': 'search',
+  'xmark.circle.fill': 'close',
+  'circle': 'radio-button-unchecked',
 } as IconMapping;
 
 /**

@@ -1,6 +1,6 @@
 import { Stack, useFocusEffect, useRouter } from 'expo-router';
 import { useCallback, useState } from 'react';
-import { Alert, FlatList, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { Alert, FlatList, ScrollView, StyleSheet, TextInput, TouchableOpacity, View } from 'react-native';
 
 import { SettingsModal } from '@/components/SettingsModal';
 import { ThemedText } from '@/components/themed-text';
@@ -13,6 +13,8 @@ import { Project } from '@/types';
 export default function ProjectsScreen() {
     const [projects, setProjects] = useState<Project[]>([]);
     const [settingsVisible, setSettingsVisible] = useState(false);
+    const [searchQuery, setSearchQuery] = useState('');
+    const [filterType, setFilterType] = useState<'all' | 'concrete' | 'flooring' | 'paint'>('all');
     const router = useRouter();
     const iconColor = useThemeColor({}, 'icon');
 
@@ -54,6 +56,12 @@ export default function ProjectsScreen() {
             Alert.alert("Error", "Failed to duplicate estimate.");
         }
     };
+
+    const filteredProjects = projects.filter(p => {
+        const matchesSearch = p.name.toLowerCase().includes(searchQuery.toLowerCase());
+        const matchesType = filterType === 'all' || p.type === filterType;
+        return matchesSearch && matchesType;
+    });
 
     const renderItem = ({ item }: { item: Project }) => (
         <TouchableOpacity onPress={() => router.push(`/project/${item.id}` as any)}>
@@ -116,7 +124,38 @@ export default function ProjectsScreen() {
                 }}
             />
 
-            {projects.length === 0 ? (
+            <View style={styles.searchContainer}>
+                <View style={styles.searchBar}>
+                    <IconSymbol name="magnifyingglass" size={20} color="#666" />
+                    <TextInput
+                        style={styles.searchInput}
+                        placeholder="Search estimates..."
+                        value={searchQuery}
+                        onChangeText={setSearchQuery}
+                    />
+                    {searchQuery.length > 0 && (
+                        <TouchableOpacity onPress={() => setSearchQuery('')}>
+                            <IconSymbol name="xmark.circle.fill" size={16} color="#999" />
+                        </TouchableOpacity>
+                    )}
+                </View>
+
+                <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.filters} contentContainerStyle={styles.filtersContent}>
+                    {(['all', 'concrete', 'flooring', 'paint'] as const).map(type => (
+                        <TouchableOpacity
+                            key={type}
+                            style={[styles.filterChip, filterType === type && styles.filterChipActive]}
+                            onPress={() => setFilterType(type)}
+                        >
+                            <ThemedText style={[styles.filterLabel, filterType === type && styles.filterLabelActive]}>
+                                {type.charAt(0).toUpperCase() + type.slice(1)}
+                            </ThemedText>
+                        </TouchableOpacity>
+                    ))}
+                </ScrollView>
+            </View>
+
+            {filteredProjects.length === 0 ? (
                 <View style={styles.emptyState}>
                     <ThemedText type="subtitle">No saved estimates yet</ThemedText>
                     <ThemedText style={styles.emptyText}>
@@ -125,7 +164,7 @@ export default function ProjectsScreen() {
                 </View>
             ) : (
                 <FlatList
-                    data={projects}
+                    data={filteredProjects}
                     renderItem={renderItem}
                     keyExtractor={item => item.id}
                     contentContainerStyle={styles.listContent}
@@ -139,6 +178,53 @@ export default function ProjectsScreen() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+    },
+    searchContainer: {
+        padding: 16,
+        paddingBottom: 8,
+        backgroundColor: 'white',
+        borderBottomWidth: 1,
+        borderBottomColor: '#f0f0f0',
+    },
+    searchBar: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        backgroundColor: '#f5f5f5',
+        paddingHorizontal: 12,
+        borderRadius: 10,
+        height: 40,
+        marginBottom: 12,
+    },
+    searchInput: {
+        flex: 1,
+        marginLeft: 8,
+        fontSize: 16,
+    },
+    filters: {
+        flexDirection: 'row',
+    },
+    filtersContent: {
+        gap: 8,
+    },
+    filterChip: {
+        paddingHorizontal: 16,
+        paddingVertical: 6,
+        borderRadius: 16,
+        backgroundColor: '#f5f5f5',
+        borderWidth: 1,
+        borderColor: '#eee',
+    },
+    filterChipActive: {
+        backgroundColor: '#0a7ea4',
+        borderColor: '#0a7ea4',
+    },
+    filterLabel: {
+        fontSize: 14,
+        color: '#666',
+        fontWeight: '500',
+    },
+    filterLabelActive: {
+        color: 'white',
     },
     listContent: {
         padding: 16,
