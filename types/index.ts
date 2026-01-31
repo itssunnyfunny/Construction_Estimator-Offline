@@ -9,3 +9,8 @@ export interface Project {
     result: any;
     note?: string;
 }
+
+export interface AppSettings {
+    defaultWaste: string;
+    defaultUnit: 'ft' | 'm';
+}

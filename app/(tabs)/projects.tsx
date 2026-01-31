@@ -2,6 +2,7 @@ import { Stack, useFocusEffect, useRouter } from 'expo-router';
 import { useCallback, useState } from 'react';
 import { Alert, FlatList, StyleSheet, TouchableOpacity, View } from 'react-native';
 
+import { SettingsModal } from '@/components/SettingsModal';
 import { ThemedText } from '@/components/themed-text';
 import { Card } from '@/components/ui/Card';
 import { IconSymbol } from '@/components/ui/icon-symbol';
@@ -11,6 +12,7 @@ import { Project } from '@/types';
 
 export default function ProjectsScreen() {
     const [projects, setProjects] = useState<Project[]>([]);
+    const [settingsVisible, setSettingsVisible] = useState(false);
     const router = useRouter();
     const iconColor = useThemeColor({}, 'icon');
 
@@ -88,7 +90,16 @@ export default function ProjectsScreen() {
 
     return (
         <View style={styles.container}>
-            <Stack.Screen options={{ title: 'Saved Estimates' }} />
+            <Stack.Screen
+                options={{
+                    title: 'Saved Estimates',
+                    headerRight: () => (
+                        <TouchableOpacity onPress={() => setSettingsVisible(true)}>
+                            <IconSymbol name="gear" size={24} color="#007AFF" />
+                        </TouchableOpacity>
+                    ),
+                }}
+            />
 
             {projects.length === 0 ? (
                 <View style={styles.emptyState}>
@@ -105,6 +116,7 @@ export default function ProjectsScreen() {
                     contentContainerStyle={styles.listContent}
                 />
             )}
+            <SettingsModal visible={settingsVisible} onClose={() => setSettingsVisible(false)} />
         </View>
     );
 }

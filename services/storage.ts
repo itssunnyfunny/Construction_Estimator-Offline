@@ -1,7 +1,13 @@
-import { Project } from '@/types';
+import { AppSettings, Project } from '@/types';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const PROJECTS_KEY = 'estimator_projects';
+const SETTINGS_KEY = 'estimator_settings';
+
+const DEFAULT_SETTINGS: AppSettings = {
+    defaultWaste: '10',
+    defaultUnit: 'ft',
+};
 
 export const StorageService = {
     async getProjects(): Promise<Project[]> {
@@ -48,5 +54,24 @@ export const StorageService = {
     async getProject(id: string): Promise<Project | null> {
         const projects = await this.getProjects();
         return projects.find(p => p.id === id) || null;
+    },
+
+    async getSettings(): Promise<AppSettings> {
+        try {
+            const json = await AsyncStorage.getItem(SETTINGS_KEY);
+            return json != null ? JSON.parse(json) : DEFAULT_SETTINGS;
+        } catch (e) {
+            console.error('Failed to load settings', e);
+            return DEFAULT_SETTINGS;
+        }
+    },
+
+    async saveSettings(settings: AppSettings): Promise<void> {
+        try {
+            await AsyncStorage.setItem(SETTINGS_KEY, JSON.stringify(settings));
+        } catch (e) {
+            console.error('Failed to save settings', e);
+            throw e;
+        }
     }
 };

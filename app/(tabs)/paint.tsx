@@ -1,5 +1,5 @@
 import { Stack, useRouter } from 'expo-router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Alert, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, View } from 'react-native';
 
 import { PaywallModal } from '@/components/PaywallModal';
@@ -9,13 +9,19 @@ import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { Input } from '@/components/ui/Input';
 import { usePro } from '@/context/ProContext';
+import { useSettings } from '@/context/SettingsContext';
 import { StorageService } from '@/services/storage';
 
 export default function PaintScreen() {
+    const { settings } = useSettings();
     const [area, setArea] = useState('');
     const [coverage, setCoverage] = useState('350');
     const [coats, setCoats] = useState('2');
-    const [unit, setUnit] = useState<'ft' | 'm'>('ft');
+    const [unit, setUnit] = useState<'ft' | 'm'>(settings.defaultUnit);
+
+    useEffect(() => {
+        setUnit(settings.defaultUnit);
+    }, [settings]);
 
     const [saveModalVisible, setSaveModalVisible] = useState(false);
     const [paywallVisible, setPaywallVisible] = useState(false);
