@@ -73,5 +73,28 @@ export const StorageService = {
             console.error('Failed to save settings', e);
             throw e;
         }
+    },
+
+    async duplicateProject(originalId: string): Promise<void> {
+        try {
+            const projects = await this.getProjects();
+            const originalProject = projects.find(p => p.id === originalId);
+
+            if (!originalProject) {
+                throw new Error('Project not found');
+            }
+
+            const newProject: Project = {
+                ...originalProject,
+                id: Date.now().toString() + Math.random().toString(36).substr(2, 5),
+                name: `Copy of ${originalProject.name}`,
+                createdAt: Date.now(),
+            };
+
+            await this.saveProject(newProject);
+        } catch (e) {
+            console.error('Failed to duplicate project', e);
+            throw e;
+        }
     }
 };

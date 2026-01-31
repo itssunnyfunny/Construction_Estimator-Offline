@@ -25,6 +25,9 @@ const MAPPING = {
   'checkmark.circle.fill': 'check-circle',
   'star.fill': 'star',
   'xmark': 'close',
+  'trash.fill': 'delete',
+  'gear': 'settings',
+  'doc.on.doc': 'content-copy',
 } as IconMapping;
 
 /**

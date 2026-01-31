@@ -45,6 +45,16 @@ export default function ProjectsScreen() {
         );
     };
 
+    const duplicateProject = async (id: string) => {
+        try {
+            await StorageService.duplicateProject(id);
+            Alert.alert("Success", "Estimate duplicated.");
+            loadProjects();
+        } catch (e) {
+            Alert.alert("Error", "Failed to duplicate estimate.");
+        }
+    };
+
     const renderItem = ({ item }: { item: Project }) => (
         <TouchableOpacity onPress={() => router.push(`/project/${item.id}` as any)}>
             <Card style={styles.projectCard}>
@@ -66,15 +76,20 @@ export default function ProjectsScreen() {
                             {new Date(item.createdAt).toLocaleDateString()}
                         </ThemedText>
                     </View>
-                    <TouchableOpacity onPress={() => deleteProject(item.id)} style={styles.deleteButton}>
-                        <IconSymbol name="trash.fill" size={20} color="#ff4444" />
-                    </TouchableOpacity>
+                    <View style={styles.actions}>
+                        <TouchableOpacity onPress={() => duplicateProject(item.id)} style={styles.actionButton}>
+                            <IconSymbol name="doc.on.doc" size={20} color="#0a7ea4" />
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={() => deleteProject(item.id)} style={styles.actionButton}>
+                            <IconSymbol name="trash.fill" size={20} color="#ff4444" />
+                        </TouchableOpacity>
+                    </View>
                 </View>
                 <ThemedText numberOfLines={2} style={styles.summary}>
                     {getSummary(item)}
                 </ThemedText>
             </Card>
-        </TouchableOpacity>
+        </TouchableOpacity >
     );
 
     const getSummary = (project: Project) => {
@@ -152,8 +167,13 @@ const styles = StyleSheet.create({
         fontSize: 12,
         opacity: 0.6,
     },
-    deleteButton: {
+    actions: {
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    actionButton: {
         padding: 8,
+        marginLeft: 4,
     },
     summary: {
         marginTop: 4,
