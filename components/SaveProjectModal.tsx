@@ -26,7 +26,7 @@ export function SaveProjectModal({ visible, onClose, onSave }: SaveProjectModalP
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                 <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.overlay}>
                     <View style={styles.modalContent}>
-                        <ThemedText type="subtitle" style={styles.title}>Save Project</ThemedText>
+                        <ThemedText type="subtitle" style={styles.title}>Save Estimate</ThemedText>
 
                         <Text style={styles.label}>Project Name</Text>
                         <TextInput
@@ -37,7 +37,7 @@ export function SaveProjectModal({ visible, onClose, onSave }: SaveProjectModalP
                             autoFocus
                         />
 
-                        <Text style={styles.label}>Notes (Optional)</Text>
+                        <Text style={styles.label}>Job Notes (Optional)</Text>
                         <TextInput
                             style={[styles.input, styles.textArea]}
                             placeholder="Add any details..."

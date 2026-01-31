@@ -30,21 +30,21 @@ export function PaywallModal({ visible, onClose, featureName }: PaywallModalProp
                         <IconSymbol name="star.fill" size={48} color="#FFD700" />
                     </View>
 
-                    <ThemedText type="title" style={styles.title}>Unlock Pro</ThemedText>
+                    <ThemedText type="title" style={styles.title}>Unlock Pro Tools</ThemedText>
 
                     <ThemedText style={styles.description}>
-                        {featureName} is a Pro feature. Upgrade to unlock:
+                        {featureName} is an Advanced Tool. Unlock to use:
                     </ThemedText>
 
                     <View style={styles.features}>
-                        <FeatureRow text="Save unlimited projects" />
-                        <FeatureRow text="Export Professional PDFs" />
-                        <FeatureRow text="Edit & Update Estimates" />
+                        <FeatureRow text="Save unlimited estimates" />
+                        <FeatureRow text="Share Estimates (PDF)" />
+                        <FeatureRow text="Reuse previous jobs" />
                         <FeatureRow text="Support Development" />
                     </View>
 
-                    <Button title="Upgrade to Pro - $9.99" onPress={handlePurchase} />
-                    <Button title="Restore Purchase" onPress={() => { }} variant="secondary" style={{ marginTop: 8 }} />
+                    <Button title="Unlock Pro Tools - $9.99" onPress={handlePurchase} />
+                    <Button title="Restore Access" onPress={() => { }} variant="secondary" style={{ marginTop: 8 }} />
                 </View>
             </View>
         </Modal>
