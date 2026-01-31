@@ -88,13 +88,13 @@ export default function ProjectsScreen() {
 
     return (
         <View style={styles.container}>
-            <Stack.Screen options={{ title: 'Projects' }} />
+            <Stack.Screen options={{ title: 'Saved Estimates' }} />
 
             {projects.length === 0 ? (
                 <View style={styles.emptyState}>
-                    <ThemedText type="subtitle">No saved projects yet</ThemedText>
+                    <ThemedText type="subtitle">No saved estimates yet</ThemedText>
                     <ThemedText style={styles.emptyText}>
-                        Use the calculators to estimate and save your projects here.
+                        Save a job to reuse or share later.
                     </ThemedText>
                 </View>
             ) : (

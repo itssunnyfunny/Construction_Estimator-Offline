@@ -148,7 +148,7 @@ export default function FlooringScreen() {
                     <View style={styles.row}>
                         <View style={styles.col}>
                             <Input
-                                label={`Length (${unit})`}
+                                label={`Room Length (${unit})`}
                                 value={roomLength}
                                 onChangeText={setRoomLength}
                                 keyboardType="numeric"
@@ -159,7 +159,7 @@ export default function FlooringScreen() {
                         <View style={{ width: 12 }} />
                         <View style={styles.col}>
                             <Input
-                                label={`Width (${unit})`}
+                                label={`Room Width (${unit})`}
                                 value={roomWidth}
                                 onChangeText={setRoomWidth}
                                 keyboardType="numeric"
@@ -173,7 +173,7 @@ export default function FlooringScreen() {
                     <View style={styles.row}>
                         <View style={styles.col}>
                             <Input
-                                label={`Length (${unit === 'ft' ? 'in' : 'cm'})`}
+                                label={`Tile Length (${unit === 'ft' ? 'in' : 'cm'})`}
                                 value={tileLength}
                                 onChangeText={setTileLength}
                                 keyboardType="numeric"
@@ -184,7 +184,7 @@ export default function FlooringScreen() {
                         <View style={{ width: 12 }} />
                         <View style={styles.col}>
                             <Input
-                                label={`Width (${unit === 'ft' ? 'in' : 'cm'})`}
+                                label={`Tile Width (${unit === 'ft' ? 'in' : 'cm'})`}
                                 value={tileWidth}
                                 onChangeText={setTileWidth}
                                 keyboardType="numeric"
@@ -195,15 +195,18 @@ export default function FlooringScreen() {
                     </View>
 
                     <Input
-                        label="Waste %"
+                        label="Extra for cuts & breakage (%)"
                         value={waste}
                         onChangeText={setWaste}
                         keyboardType="numeric"
                         placeholder="10"
                         unit="%"
                     />
+                    <ThemedText style={{ fontSize: 12, color: '#666', marginTop: -12, marginBottom: 12, marginLeft: 4 }}>
+                        Covers cuts, mistakes, and pattern loss
+                    </ThemedText>
 
-                    <Button title="Calculate" onPress={calculate} />
+                    <Button title="Quick Estimate" onPress={calculate} />
                     <Button title="Clear" onPress={clear} variant="secondary" />
                 </Card>
 
@@ -212,14 +215,14 @@ export default function FlooringScreen() {
                         <ThemedText type="subtitle" style={styles.resultTitle}>Results</ThemedText>
 
                         <View style={styles.resultRow}>
-                            <ThemedText>Total Tiles Needed (+Waste):</ThemedText>
+                            <ThemedText>Tiles to Buy (With Extra):</ThemedText>
                             <ThemedText type="title" style={{ color: '#0a7ea4' }}>
                                 {result.totalTiles}
                             </ThemedText>
                         </View>
 
                         <View style={styles.resultRow}>
-                            <ThemedText>Net Tiles (No Waste):</ThemedText>
+                            <ThemedText>Tiles Needed (Exact):</ThemedText>
                             <ThemedText type="defaultSemiBold">
                                 {result.tilesRequired}
                             </ThemedText>

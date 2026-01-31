@@ -145,7 +145,7 @@ export default function PaintScreen() {
                         placeholder="2"
                     />
 
-                    <Button title="Calculate" onPress={calculate} />
+                    <Button title="Quick Estimate" onPress={calculate} />
                     <Button title="Clear" onPress={clear} variant="secondary" />
                 </Card>
 
@@ -154,7 +154,7 @@ export default function PaintScreen() {
                         <ThemedText type="subtitle" style={styles.resultTitle}>Results</ThemedText>
 
                         <View style={styles.resultRow}>
-                            <ThemedText>Total Paint Required:</ThemedText>
+                            <ThemedText>Paint Needed:</ThemedText>
                             <ThemedText type="title" style={{ color: '#0a7ea4' }}>
                                 {result.paintRequired.toFixed(2)} {unit === 'ft' ? 'gallons' : 'liters'}
                             </ThemedText>

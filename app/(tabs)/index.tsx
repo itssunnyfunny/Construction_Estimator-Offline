@@ -111,7 +111,7 @@ export default function ConcreteScreen() {
 
         <Card>
           <Input
-            label={`Length (${unit})`}
+            label={`Slab Length (${unit})`}
             value={length}
             onChangeText={setLength}
             keyboardType="numeric"
@@ -119,7 +119,7 @@ export default function ConcreteScreen() {
             unit={unit}
           />
           <Input
-            label={`Width (${unit})`}
+            label={`Slab Width (${unit})`}
             value={width}
             onChangeText={setWidth}
             keyboardType="numeric"
@@ -127,7 +127,7 @@ export default function ConcreteScreen() {
             unit={unit}
           />
           <Input
-            label={`Depth (${unit})`}
+            label={`Slab Thickness (${unit})`}
             value={depth}
             onChangeText={setDepth}
             keyboardType="numeric"
@@ -135,15 +135,18 @@ export default function ConcreteScreen() {
             unit={unit}
           />
           <Input
-            label="Waste %"
+            label="Extra for safety (%)"
             value={waste}
             onChangeText={setWaste}
             keyboardType="numeric"
             placeholder="5"
             unit="%"
           />
+          <ThemedText style={{ fontSize: 12, color: '#666', marginTop: -12, marginBottom: 12, marginLeft: 4 }}>
+            Adds buffer for spillage & uneven ground
+          </ThemedText>
 
-          <Button title="Calculate" onPress={calculate} />
+          <Button title="Quick Estimate" onPress={calculate} />
           <Button title="Clear" onPress={clear} variant="secondary" />
         </Card>
 
@@ -152,14 +155,14 @@ export default function ConcreteScreen() {
             <ThemedText type="subtitle" style={styles.resultTitle}>Results</ThemedText>
 
             <View style={styles.resultRow}>
-              <ThemedText>Raw Volume:</ThemedText>
+              <ThemedText>Concrete Needed (Exact):</ThemedText>
               <ThemedText type="defaultSemiBold">
                 {result.rawVolume.toFixed(2)} {unit === 'ft' ? 'ft³' : 'm³'}
               </ThemedText>
             </View>
 
             <View style={styles.resultRow}>
-              <ThemedText>Total (with waste):</ThemedText>
+              <ThemedText>Concrete to Order (With Extra):</ThemedText>
               <ThemedText type="title" style={{ color: '#0a7ea4' }}>
                 {result.totalVolume.toFixed(2)} {unit === 'ft' ? 'ft³' : 'm³'}
               </ThemedText>
