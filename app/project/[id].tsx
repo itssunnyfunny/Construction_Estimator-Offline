@@ -1,20 +1,22 @@
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useEffect, useState } from 'react';
-import { ActivityIndicator, Alert, ScrollView, StyleSheet, View } from 'react-native';
+import { ActivityIndicator, Alert, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
 
 import { PaywallModal } from '@/components/PaywallModal';
 import { ThemedText } from '@/components/themed-text';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
+import { IconSymbol } from '@/components/ui/icon-symbol';
 import { usePro } from '@/context/ProContext';
 import { PdfService } from '@/services/pdf';
 import { StorageService } from '@/services/storage';
-import { Project } from '@/types';
+import { ChecklistItem, Project } from '@/types';
 
 export default function ProjectDetailsScreen() {
     const { id } = useLocalSearchParams();
     const router = useRouter();
     const [project, setProject] = useState<Project | null>(null);
+    const [checklist, setChecklist] = useState<ChecklistItem[]>([]);
     const [loading, setLoading] = useState(true);
     const [paywallVisible, setPaywallVisible] = useState(false);
 
@@ -28,8 +30,23 @@ export default function ProjectDetailsScreen() {
         if (typeof id === 'string') {
             const p = await StorageService.getProject(id);
             setProject(p);
+            setChecklist(p?.checklist || []);
         }
         setLoading(false);
+    };
+
+    const toggleChecklistItem = async (itemId: string) => {
+        if (!project) return;
+
+        const newChecklist = checklist.map(item =>
+            item.id === itemId ? { ...item, checked: !item.checked } : item
+        );
+
+        setChecklist(newChecklist);
+
+        const updatedProject = { ...project, checklist: newChecklist };
+        setProject(updatedProject);
+        await StorageService.saveProject(updatedProject);
     };
 
     const handleExport = async () => {
@@ -104,6 +121,31 @@ export default function ProjectDetailsScreen() {
                 </Card>
             ) : null}
 
+            {checklist.length > 0 && (
+                <Card>
+                    <ThemedText type="subtitle" style={styles.sectionTitle}>Checklist</ThemedText>
+                    {checklist.map(item => (
+                        <TouchableOpacity
+                            key={item.id}
+                            style={styles.checklistItem}
+                            onPress={() => toggleChecklistItem(item.id)}
+                        >
+                            <IconSymbol
+                                name={item.checked ? "checkmark.circle.fill" : "circle"}
+                                size={24}
+                                color={item.checked ? "#4CAF50" : "#ccc"}
+                            />
+                            <ThemedText style={[
+                                styles.checklistText,
+                                item.checked && styles.checklistTextChecked
+                            ]}>
+                                {item.text}
+                            </ThemedText>
+                        </TouchableOpacity>
+                    ))}
+                </Card>
+            )}
+
             <View style={styles.actions}>
                 <Button title="Export PDF" onPress={handleExport} style={{ flex: 1 }} />
                 <Button title="Delete" onPress={deleteProject} variant="danger" style={{ flex: 1 }} />
@@ -161,5 +203,21 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         gap: 16,
         marginTop: 24,
+    },
+    checklistItem: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        paddingVertical: 12,
+        borderBottomWidth: 1,
+        borderBottomColor: '#eee',
+        gap: 12,
+    },
+    checklistText: {
+        fontSize: 16,
+        flex: 1,
+    },
+    checklistTextChecked: {
+        textDecorationLine: 'line-through',
+        opacity: 0.6,
     }
 });
