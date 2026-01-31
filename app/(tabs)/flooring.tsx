@@ -218,39 +218,46 @@ export default function FlooringScreen() {
                 </Card>
 
                 {result && (
-                    <Card style={styles.resultCard}>
-                        <ThemedText type="subtitle" style={styles.resultTitle}>Results</ThemedText>
+                    <>
+                        <ThemedText style={styles.unitBanner}>
+                            {unit === 'ft'
+                                ? 'Room: ft | Tile: in (auto-converted)'
+                                : 'Room: m | Tile: cm (auto-converted)'}
+                        </ThemedText>
+                        <Card style={styles.resultCard}>
+                            <ThemedText type="subtitle" style={styles.resultTitle}>Results</ThemedText>
 
-                        <View style={styles.resultRow}>
-                            <ThemedText>Tiles to Buy (With Extra):</ThemedText>
-                            <ThemedText type="title" style={{ color: '#0a7ea4' }}>
-                                {result.totalTiles}
-                            </ThemedText>
-                        </View>
+                            <View style={styles.resultRow}>
+                                <ThemedText>Tiles to Buy (With Extra):</ThemedText>
+                                <ThemedText type="title" style={{ color: '#0a7ea4' }}>
+                                    {result.totalTiles}
+                                </ThemedText>
+                            </View>
 
-                        <View style={styles.resultRow}>
-                            <ThemedText>Tiles Needed (Exact):</ThemedText>
-                            <ThemedText type="defaultSemiBold">
-                                {result.tilesRequired}
-                            </ThemedText>
-                        </View>
+                            <View style={styles.resultRow}>
+                                <ThemedText>Tiles Needed (Exact):</ThemedText>
+                                <ThemedText type="defaultSemiBold">
+                                    {result.tilesRequired}
+                                </ThemedText>
+                            </View>
 
-                        <View style={styles.resultRow}>
-                            <ThemedText>Room Area:</ThemedText>
-                            <ThemedText type="defaultSemiBold">
-                                {result.totalArea.toFixed(2)} {unit === 'ft' ? 'sq ft' : 'sq m'}
-                            </ThemedText>
-                        </View>
+                            <View style={styles.resultRow}>
+                                <ThemedText>Room Area:</ThemedText>
+                                <ThemedText type="defaultSemiBold">
+                                    {result.totalArea.toFixed(2)} {unit === 'ft' ? 'sq ft' : 'sq m'}
+                                </ThemedText>
+                            </View>
 
-                        <View style={styles.resultRow}>
-                            <ThemedText>Tile Area (each):</ThemedText>
-                            <ThemedText type="defaultSemiBold">
-                                {result.tileArea.toFixed(4)} {unit === 'ft' ? 'sq ft' : 'sq m'}
-                            </ThemedText>
-                        </View>
+                            <View style={styles.resultRow}>
+                                <ThemedText>Tile Area (each):</ThemedText>
+                                <ThemedText type="defaultSemiBold">
+                                    {result.tileArea.toFixed(4)} {unit === 'ft' ? 'sq ft' : 'sq m'}
+                                </ThemedText>
+                            </View>
 
-                        <Button title="Save Project" onPress={onSavePress} style={{ marginTop: 16 }} variant="secondary" />
-                    </Card>
+                            <Button title="Save Project" onPress={onSavePress} style={{ marginTop: 16 }} variant="secondary" />
+                        </Card>
+                    </>
                 )}
 
                 <SaveProjectModal
@@ -308,4 +315,11 @@ const styles = StyleSheet.create({
         marginBottom: 12,
         alignItems: 'center',
     },
+    unitBanner: {
+        textAlign: 'center',
+        marginBottom: 8,
+        fontSize: 12,
+        opacity: 0.6,
+        fontStyle: 'italic',
+    }
 });

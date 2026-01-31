@@ -158,33 +158,36 @@ export default function ConcreteScreen() {
         </Card>
 
         {result && (
-          <Card style={styles.resultCard}>
-            <ThemedText type="subtitle" style={styles.resultTitle}>Results</ThemedText>
-
-            <View style={styles.resultRow}>
-              <ThemedText>Concrete Needed (Exact):</ThemedText>
-              <ThemedText type="defaultSemiBold">
+          <>
+            <ThemedText style={styles.unitBanner}>
+              {unit === 'ft'
+                ? 'Slab: ft | Thickness: in'
+                : 'Slab: m | Thickness: cm'}
+            </ThemedText>
+            <Card style={styles.resultCard}>
+              <ThemedText type="subtitle" style={styles.resultTitle}>Concrete Needed (Exact)</ThemedText>
+              <ThemedText type="title" style={styles.resultValue}>
                 {result.rawVolume.toFixed(2)} {unit === 'ft' ? 'ft³' : 'm³'}
               </ThemedText>
-            </View>
 
-            <View style={styles.resultRow}>
-              <ThemedText>Concrete to Order (With Extra):</ThemedText>
-              <ThemedText type="title" style={{ color: '#0a7ea4' }}>
-                {result.totalVolume.toFixed(2)} {unit === 'ft' ? 'ft³' : 'm³'}
-              </ThemedText>
-            </View>
-
-            {unit === 'ft' && (
-              <View style={styles.conversionRow}>
-                <ThemedText type="default">
-                  = {(result.totalVolume / 27).toFixed(2)} yd³ (Cubic Yards)
+              <View style={styles.resultRow}>
+                <ThemedText>Concrete to Order (With Extra):</ThemedText>
+                <ThemedText type="title" style={{ color: '#0a7ea4' }}>
+                  {result.totalVolume.toFixed(2)} {unit === 'ft' ? 'ft³' : 'm³'}
                 </ThemedText>
               </View>
-            )}
 
-            <Button title="Save Project" onPress={onSavePress} style={{ marginTop: 16 }} variant="secondary" />
-          </Card>
+              {unit === 'ft' && (
+                <View style={styles.conversionRow}>
+                  <ThemedText type="default">
+                    = {(result.totalVolume / 27).toFixed(2)} yd³ (Cubic Yards)
+                  </ThemedText>
+                </View>
+              )}
+
+              <Button title="Save Project" onPress={onSavePress} style={{ marginTop: 16 }} variant="secondary" />
+            </Card>
+          </>
         )}
 
         <SaveProjectModal
@@ -225,6 +228,18 @@ const styles = StyleSheet.create({
   },
   resultTitle: {
     marginBottom: 16,
+  },
+  resultValue: {
+    color: '#0a7ea4',
+    textAlign: 'center',
+    marginVertical: 8,
+  },
+  unitBanner: {
+    textAlign: 'center',
+    marginBottom: 8,
+    fontSize: 12,
+    opacity: 0.6,
+    fontStyle: 'italic',
   },
   resultRow: {
     flexDirection: 'row',
