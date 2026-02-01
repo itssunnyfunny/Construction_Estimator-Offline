@@ -141,7 +141,9 @@ export default function FlooringScreen() {
                 <Stack.Screen options={{ title: 'Flooring' }} />
 
                 <View style={styles.header}>
-                    <ThemedText type="title">Flooring Calculator</ThemedText>
+                    <View style={{ flex: 1, marginRight: 8 }}>
+                        <ThemedText type="title">Flooring Calculator</ThemedText>
+                    </View>
                     <Button
                         title={unit === 'ft' ? 'Imperial (ft/in)' : 'Metric (m/cm)'}
                         onPress={toggleUnit}

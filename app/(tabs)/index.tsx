@@ -107,7 +107,9 @@ export default function ConcreteScreen() {
         <Stack.Screen options={{ title: 'Concrete' }} />
 
         <View style={styles.header}>
-          <ThemedText type="title">Concrete Calculator</ThemedText>
+          <View style={{ flex: 1, marginRight: 8 }}>
+            <ThemedText type="title">Concrete Calculator</ThemedText>
+          </View>
           <Button
             title={unit === 'ft' ? 'Feet' : 'Meters'}
             onPress={toggleUnit}

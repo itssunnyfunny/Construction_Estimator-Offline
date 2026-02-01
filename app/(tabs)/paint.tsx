@@ -112,7 +112,9 @@ export default function PaintScreen() {
                 <Stack.Screen options={{ title: 'Paint' }} />
 
                 <View style={styles.header}>
-                    <ThemedText type="title">Paint Calculator</ThemedText>
+                    <View style={{ flex: 1, marginRight: 8 }}>
+                        <ThemedText type="title">Paint Calculator</ThemedText>
+                    </View>
                     <Button
                         title={unit === 'ft' ? 'Imperial (gal)' : 'Metric (L)'}
                         onPress={toggleUnit}
