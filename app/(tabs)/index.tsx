@@ -165,25 +165,25 @@ export default function ConcreteScreen() {
                 : 'Slab: m | Thickness: cm'}
             </ThemedText>
             <Card style={styles.resultCard}>
-              <ThemedText type="subtitle" style={styles.resultTitle}>Concrete Needed (Exact)</ThemedText>
+              <ThemedText type="subtitle" style={styles.resultTitle}>Concrete to Order (With Extra)</ThemedText>
               <ThemedText type="title" style={styles.resultValue}>
-                {result.rawVolume.toFixed(2)} {unit === 'ft' ? 'ft³' : 'm³'}
+                {result.totalVolume.toFixed(2)} {unit === 'ft' ? 'ft³' : 'm³'}
               </ThemedText>
 
-              <View style={styles.resultRow}>
-                <ThemedText>Concrete to Order (With Extra):</ThemedText>
-                <ThemedText type="title" style={{ color: '#0a7ea4' }}>
-                  {result.totalVolume.toFixed(2)} {unit === 'ft' ? 'ft³' : 'm³'}
-                </ThemedText>
-              </View>
-
               {unit === 'ft' && (
-                <View style={styles.conversionRow}>
-                  <ThemedText type="default">
+                <View style={[styles.conversionRow, { borderTopWidth: 0, marginTop: -8, marginBottom: 16, paddingTop: 0 }]}>
+                  <ThemedText type="default" style={{ color: '#0a7ea4', fontWeight: '600' }}>
                     = {(result.totalVolume / 27).toFixed(2)} yd³ (Cubic Yards)
                   </ThemedText>
                 </View>
               )}
+
+              <View style={[styles.resultRow, { marginTop: 8, paddingTop: 16, borderTopWidth: 1, borderTopColor: 'rgba(10, 126, 164, 0.2)' }]}>
+                <ThemedText style={{ fontSize: 14 }}>Concrete Needed (Exact):</ThemedText>
+                <ThemedText type="defaultSemiBold" style={{ color: '#666' }}>
+                  {result.rawVolume.toFixed(2)} {unit === 'ft' ? 'ft³' : 'm³'}
+                </ThemedText>
+              </View>
 
               <Button title="Save Project" onPress={onSavePress} style={{ marginTop: 16 }} variant="secondary" />
             </Card>
