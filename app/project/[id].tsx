@@ -154,7 +154,7 @@ export default function ProjectDetailsScreen() {
             <PaywallModal
                 visible={paywallVisible}
                 onClose={() => setPaywallVisible(false)}
-                featureName="Exporting PDF"
+                variant="export"
             />
         </ScrollView>
     );

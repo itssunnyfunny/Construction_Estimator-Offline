@@ -2,10 +2,12 @@ import { Stack, useFocusEffect, useRouter } from 'expo-router';
 import { useCallback, useState } from 'react';
 import { Alert, FlatList, ScrollView, StyleSheet, TextInput, TouchableOpacity, View } from 'react-native';
 
+import { PaywallModal } from '@/components/PaywallModal';
 import { SettingsModal } from '@/components/SettingsModal';
 import { ThemedText } from '@/components/themed-text';
 import { Card } from '@/components/ui/Card';
 import { IconSymbol } from '@/components/ui/icon-symbol';
+import { usePro } from '@/context/ProContext';
 import { useThemeColor } from '@/hooks/use-theme-color';
 import { StorageService } from '@/services/storage';
 import { Project } from '@/types';
@@ -13,10 +15,12 @@ import { Project } from '@/types';
 export default function ProjectsScreen() {
     const [projects, setProjects] = useState<Project[]>([]);
     const [settingsVisible, setSettingsVisible] = useState(false);
+    const [paywallVisible, setPaywallVisible] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
     const [filterType, setFilterType] = useState<'all' | 'concrete' | 'flooring' | 'paint'>('all');
     const router = useRouter();
     const iconColor = useThemeColor({}, 'icon');
+    const { isPro } = usePro();
 
     useFocusEffect(
         useCallback(() => {
@@ -48,6 +52,11 @@ export default function ProjectsScreen() {
     };
 
     const duplicateProject = async (id: string) => {
+        if (!isPro) {
+            setPaywallVisible(true);
+            return;
+        }
+
         try {
             await StorageService.duplicateProject(id);
             Alert.alert("Success", "Estimate duplicated.");
@@ -171,6 +180,11 @@ export default function ProjectsScreen() {
                 />
             )}
             <SettingsModal visible={settingsVisible} onClose={() => setSettingsVisible(false)} />
+            <PaywallModal
+                visible={paywallVisible}
+                onClose={() => setPaywallVisible(false)}
+                variant="duplicate"
+            />
         </View>
     );
 }

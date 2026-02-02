@@ -28,6 +28,7 @@ export default function FlooringScreen() {
 
     const [saveModalVisible, setSaveModalVisible] = useState(false);
     const [paywallVisible, setPaywallVisible] = useState(false);
+    const [paywallVariant, setPaywallVariant] = useState<import('@/components/PaywallModal').PaywallVariant>('default');
 
     const [result, setResult] = useState<{
         tilesRequired: number;
@@ -101,11 +102,18 @@ export default function FlooringScreen() {
         setResult(null);
     };
 
-    const onSavePress = () => {
+    const onSavePress = async () => {
         if (!result) return;
         if (isPro) {
             setSaveModalVisible(true);
+            return;
+        }
+
+        const projects = await StorageService.getProjects();
+        if (projects.length < 5) {
+            setSaveModalVisible(true);
         } else {
+            setPaywallVariant('saveLimit');
             setPaywallVisible(true);
         }
     };
@@ -271,7 +279,7 @@ export default function FlooringScreen() {
                 <PaywallModal
                     visible={paywallVisible}
                     onClose={() => setPaywallVisible(false)}
-                    featureName="Saving Projects"
+                    variant={paywallVariant}
                 />
             </ScrollView>
         </KeyboardAvoidingView>

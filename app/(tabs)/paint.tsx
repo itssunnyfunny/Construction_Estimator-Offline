@@ -25,6 +25,7 @@ export default function PaintScreen() {
 
     const [saveModalVisible, setSaveModalVisible] = useState(false);
     const [paywallVisible, setPaywallVisible] = useState(false);
+    const [paywallVariant, setPaywallVariant] = useState<import('@/components/PaywallModal').PaywallVariant>('default');
 
     const [result, setResult] = useState<{
         paintRequired: number;
@@ -72,11 +73,18 @@ export default function PaintScreen() {
         setResult(null);
     };
 
-    const onSavePress = () => {
+    const onSavePress = async () => {
         if (!result) return;
         if (isPro) {
             setSaveModalVisible(true);
+            return;
+        }
+
+        const projects = await StorageService.getProjects();
+        if (projects.length < 5) {
+            setSaveModalVisible(true);
         } else {
+            setPaywallVariant('saveLimit');
             setPaywallVisible(true);
         }
     };
@@ -187,7 +195,7 @@ export default function PaintScreen() {
                 <PaywallModal
                     visible={paywallVisible}
                     onClose={() => setPaywallVisible(false)}
-                    featureName="Saving Projects"
+                    variant={paywallVariant}
                 />
             </ScrollView>
         </KeyboardAvoidingView>

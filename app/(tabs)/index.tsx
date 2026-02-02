@@ -27,6 +27,7 @@ export default function ConcreteScreen() {
 
   const [saveModalVisible, setSaveModalVisible] = useState(false);
   const [paywallVisible, setPaywallVisible] = useState(false);
+  const [paywallVariant, setPaywallVariant] = useState<import('@/components/PaywallModal').PaywallVariant>('default');
 
   const [result, setResult] = useState<{ rawVolume: number; totalVolume: number } | null>(null);
 
@@ -67,11 +68,18 @@ export default function ConcreteScreen() {
     setResult(null);
   };
 
-  const onSavePress = () => {
+  const onSavePress = async () => {
     if (!result) return;
     if (isPro) {
       setSaveModalVisible(true);
+      return;
+    }
+
+    const projects = await StorageService.getProjects();
+    if (projects.length < 5) {
+      setSaveModalVisible(true);
     } else {
+      setPaywallVariant('saveLimit');
       setPaywallVisible(true);
     }
   };
@@ -201,7 +209,7 @@ export default function ConcreteScreen() {
         <PaywallModal
           visible={paywallVisible}
           onClose={() => setPaywallVisible(false)}
-          featureName="Saving Projects"
+          variant={paywallVariant}
         />
       </ScrollView>
     </KeyboardAvoidingView>
