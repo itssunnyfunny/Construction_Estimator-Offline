@@ -4,7 +4,7 @@ import { IconSymbol } from '@/components/ui/icon-symbol';
 import { usePro } from '@/context/ProContext';
 import { Modal, StyleSheet, TouchableOpacity, View } from 'react-native';
 
-export type PaywallVariant = 'default' | 'saveLimit' | 'export' | 'duplicate';
+export type PaywallVariant = 'default' | 'saveLimit' | 'export' | 'duplicate' | 'editing';
 
 type PaywallModalProps = {
     visible: boolean;
@@ -46,6 +46,14 @@ export function PaywallModal({ visible, onClose, variant = 'default' }: PaywallM
                 return {
                     title: 'Reuse jobs faster with Pro',
                     subtitle: 'Duplicate past estimates instead of starting over.',
+                    primaryButton: 'Unlock Pro',
+                    secondaryButton: 'Cancel',
+                    showFeatures: false,
+                };
+            case 'editing':
+                return {
+                    title: 'Editing is a Pro tool',
+                    subtitle: 'Contractors unlock Pro to quickly adjust past estimates instead of starting from scratch.',
                     primaryButton: 'Unlock Pro',
                     secondaryButton: 'Cancel',
                     showFeatures: false,

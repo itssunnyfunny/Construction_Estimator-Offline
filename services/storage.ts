@@ -87,7 +87,7 @@ export const StorageService = {
             const newProject: Project = {
                 ...originalProject,
                 id: Date.now().toString() + Math.random().toString(36).substr(2, 5),
-                name: `Copy of ${originalProject.name}`,
+                name: `${originalProject.name} (Copy)`,
                 createdAt: Date.now(),
             };
 

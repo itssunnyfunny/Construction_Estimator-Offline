@@ -1,14 +1,16 @@
+import { IconSymbol } from '@/components/ui/icon-symbol';
 import { Colors } from '@/constants/theme';
 import { useColorScheme } from '@/hooks/use-color-scheme';
-import { ActivityIndicator, StyleSheet, Text, TouchableOpacity, TouchableOpacityProps } from 'react-native';
+import { ActivityIndicator, StyleSheet, Text, TouchableOpacity, TouchableOpacityProps, View } from 'react-native';
 
 export type ButtonProps = TouchableOpacityProps & {
     title: string;
     variant?: 'primary' | 'secondary' | 'danger';
     isLoading?: boolean;
+    icon?: React.ComponentProps<typeof IconSymbol>['name'];
 };
 
-export function Button({ title, variant = 'primary', isLoading, style, disabled, ...otherProps }: ButtonProps) {
+export function Button({ title, variant = 'primary', isLoading, style, disabled, icon, ...otherProps }: ButtonProps) {
     const colorScheme = useColorScheme();
     const theme = Colors[colorScheme ?? 'light'];
 
@@ -38,7 +40,10 @@ export function Button({ title, variant = 'primary', isLoading, style, disabled,
             {isLoading ? (
                 <ActivityIndicator color={textColor} />
             ) : (
-                <Text style={[styles.text, { color: textColor }]}>{title}</Text>
+                <View style={styles.content}>
+                    {icon && <IconSymbol name={icon} size={20} color={textColor} />}
+                    <Text style={[styles.text, { color: textColor }]}>{title}</Text>
+                </View>
             )}
         </TouchableOpacity>
     );
@@ -52,6 +57,11 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         paddingHorizontal: 16,
         marginVertical: 8,
+    },
+    content: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 8,
     },
     text: {
         fontSize: 16,
