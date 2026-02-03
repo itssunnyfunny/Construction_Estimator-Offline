@@ -23,9 +23,10 @@ type FlooringCalculatorProps = {
     isEditing?: boolean;
     onResultChange?: (result: { tilesRequired: number; totalArea: number; totalTiles: number; tileArea: number; } | null) => void;
     onStateChange?: (data: { roomLength: string; roomWidth: string; tileLength: string; tileWidth: string; waste: string; unit: 'ft' | 'm' }) => void;
+    onCalculate?: () => void;
 };
 
-export function FlooringCalculator({ initialData, isEditing = false, onResultChange, onStateChange }: FlooringCalculatorProps) {
+export function FlooringCalculator({ initialData, isEditing = false, onResultChange, onStateChange, onCalculate }: FlooringCalculatorProps) {
     const { settings } = useSettings();
     const router = useRouter();
     const { isPro } = usePro();
@@ -108,6 +109,10 @@ export function FlooringCalculator({ initialData, isEditing = false, onResultCha
         };
         setResult(res);
         if (onResultChange) onResultChange(res);
+
+        if (onCalculate) {
+            setTimeout(() => onCalculate(), 100);
+        }
     };
 
     const clear = () => {

@@ -1,20 +1,21 @@
 import { useThemeColor } from '@/hooks/use-theme-color';
-import { StyleSheet, Text, TextInput, TextInputProps, View } from 'react-native';
+import { StyleProp, StyleSheet, Text, TextInput, TextInputProps, View, ViewStyle } from 'react-native';
 
 export type InputProps = TextInputProps & {
     label?: string;
     lightColor?: string;
     darkColor?: string;
     unit?: string;
+    containerStyle?: StyleProp<ViewStyle>;
 };
 
-export function Input({ style, label, lightColor, darkColor, unit, ...otherProps }: InputProps) {
+export function Input({ style, label, lightColor, darkColor, unit, containerStyle, ...otherProps }: InputProps) {
     const color = useThemeColor({ light: lightColor, dark: darkColor }, 'text');
     const backgroundColor = useThemeColor({ light: '#f9f9f9', dark: '#1e1e1e' }, 'background');
     const borderColor = useThemeColor({ light: '#ccc', dark: '#444' }, 'icon');
 
     return (
-        <View style={styles.container}>
+        <View style={[styles.container, containerStyle]}>
             {label && <Text style={[styles.label, { color }]}>{label}</Text>}
             <View style={[styles.inputContainer, { backgroundColor, borderColor }]}>
                 <TextInput
@@ -43,12 +44,13 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderRadius: 8,
         paddingHorizontal: 12,
-        height: 50,
+        minHeight: 50,
     },
     input: {
         flex: 1,
         fontSize: 18,
-        height: '100%',
+        minHeight: 50,
+        paddingVertical: 10,
     },
     unit: {
         fontSize: 16,

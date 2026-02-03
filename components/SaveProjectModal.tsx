@@ -63,13 +63,13 @@ export function SaveProjectModal({ visible, onClose, onSave }: SaveProjectModalP
                             numberOfLines={3}
                         />
 
-                        <ThemedText type="defaultSemiBold" style={styles.sectionTitle}>Checklist (Optional)</ThemedText>
+                        <ThemedText type="subtitle" style={styles.sectionTitle}>Checklist (Optional)</ThemedText>
                         <View style={styles.addItemRow}>
                             <Input
                                 value={newItemText}
                                 onChangeText={setNewItemText}
                                 placeholder="Add item (e.g. Sealer)"
-                                style={{ flex: 1, marginBottom: 0 }}
+                                containerStyle={{ flex: 1, marginBottom: 0 }}
                                 label="Add Item"
                             />
                             <Button title="Add" onPress={handleAddItem} variant="secondary" style={styles.addButton} />
@@ -132,7 +132,6 @@ const styles = StyleSheet.create({
     },
     addButton: {
         width: 80,
-        marginBottom: 16,
     },
     checklist: {
         maxHeight: 150,

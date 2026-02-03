@@ -21,9 +21,10 @@ type PaintCalculatorProps = {
     isEditing?: boolean;
     onResultChange?: (result: { paintRequired: number } | null) => void;
     onStateChange?: (data: { area: string; coverage: string; coats: string; unit: 'ft' | 'm' }) => void;
+    onCalculate?: () => void;
 };
 
-export function PaintCalculator({ initialData, isEditing = false, onResultChange, onStateChange }: PaintCalculatorProps) {
+export function PaintCalculator({ initialData, isEditing = false, onResultChange, onStateChange, onCalculate }: PaintCalculatorProps) {
     const { settings } = useSettings();
     const router = useRouter();
     const { isPro } = usePro();
@@ -85,6 +86,10 @@ export function PaintCalculator({ initialData, isEditing = false, onResultChange
         const res = { paintRequired: required };
         setResult(res);
         if (onResultChange) onResultChange(res);
+
+        if (onCalculate) {
+            setTimeout(() => onCalculate(), 100);
+        }
     };
 
     const clear = () => {

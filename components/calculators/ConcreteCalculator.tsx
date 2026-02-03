@@ -22,9 +22,10 @@ type ConcreteCalculatorProps = {
     isEditing?: boolean;
     onResultChange?: (result: { rawVolume: number; totalVolume: number } | null) => void;
     onStateChange?: (data: { length: string; width: string; depth: string; waste: string; unit: 'ft' | 'm' }) => void;
+    onCalculate?: () => void;
 };
 
-export function ConcreteCalculator({ initialData, isEditing = false, onResultChange, onStateChange }: ConcreteCalculatorProps) {
+export function ConcreteCalculator({ initialData, isEditing = false, onResultChange, onStateChange, onCalculate }: ConcreteCalculatorProps) {
     const { settings } = useSettings();
     const router = useRouter();
     const { isPro } = usePro();
@@ -85,6 +86,12 @@ export function ConcreteCalculator({ initialData, isEditing = false, onResultCha
         };
         setResult(res);
         if (onResultChange) onResultChange(res);
+
+        // Trigger auto-scroll
+        if (onCalculate) {
+            // Small timeout to allow render
+            setTimeout(() => onCalculate(), 100);
+        }
     };
 
     const clear = () => {

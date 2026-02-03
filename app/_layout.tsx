@@ -10,20 +10,23 @@ export const unstable_settings = {
 };
 
 import { ProProvider } from '@/context/ProContext';
+import { SettingsProvider } from '@/context/SettingsContext';
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
 
   return (
-    <ProProvider>
-      <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-        <Stack>
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-          <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
-          <Stack.Screen name="project/[id]" options={{ title: 'Project Details' }} />
-        </Stack>
-        <StatusBar style="auto" />
-      </ThemeProvider>
-    </ProProvider>
+    <SettingsProvider>
+      <ProProvider>
+        <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+          <Stack>
+            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+            <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
+            <Stack.Screen name="project/[id]" options={{ title: 'Project Details' }} />
+          </Stack>
+          <StatusBar style="auto" />
+        </ThemeProvider>
+      </ProProvider>
+    </SettingsProvider>
   );
 }
