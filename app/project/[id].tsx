@@ -28,6 +28,7 @@ export default function ProjectDetailsScreen() {
     const [editedData, setEditedData] = useState<any>(null);
     const [editedResult, setEditedResult] = useState<any>(null);
     const [editedNote, setEditedNote] = useState('');
+    const [editedName, setEditedName] = useState('');
 
     const { isPro } = usePro();
 
@@ -43,6 +44,7 @@ export default function ProjectDetailsScreen() {
             setEditedData(p?.data);
             setEditedResult(p?.result);
             setEditedNote(p?.note || '');
+            setEditedName(p?.name || '');
         }
         setLoading(false);
     };
@@ -65,6 +67,7 @@ export default function ProjectDetailsScreen() {
             setEditedData(project.data);
             setEditedResult(project.result);
             setEditedNote(project.note || '');
+            setEditedName(project.name);
             setIsEditing(true);
         } else {
             setPaywallVariant('editing');
@@ -104,6 +107,7 @@ export default function ProjectDetailsScreen() {
 
         const updatedProject = {
             ...project,
+            name: editedName,
             data: editedData,
             result: editedResult,
             note: editedNote,
@@ -236,7 +240,12 @@ export default function ProjectDetailsScreen() {
                 // EDIT MODE
                 <>
                     <Card style={{ marginBottom: 16 }}>
-                        <ThemedText type="title">Editing Estimate</ThemedText>
+                        <ThemedText type="title" style={{ marginBottom: 16 }}>Editing Estimate</ThemedText>
+                        <Input
+                            label="Project Name"
+                            value={editedName}
+                            onChangeText={setEditedName}
+                        />
                     </Card>
 
                     {project.type === 'concrete' && (
