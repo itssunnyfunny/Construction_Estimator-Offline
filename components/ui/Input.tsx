@@ -11,8 +11,8 @@ export type InputProps = TextInputProps & {
 
 export function Input({ style, label, lightColor, darkColor, unit, containerStyle, ...otherProps }: InputProps) {
     const color = useThemeColor({ light: lightColor, dark: darkColor }, 'text');
-    const backgroundColor = useThemeColor({ light: '#f9f9f9', dark: '#1e1e1e' }, 'background');
-    const borderColor = useThemeColor({ light: '#ccc', dark: '#444' }, 'icon');
+    const backgroundColor = useThemeColor({ light: '#FFFFFF', dark: '#1e1e1e' }, 'background');
+    const borderColor = useThemeColor({ light: '#E2E8F0', dark: '#444' }, 'icon');
 
     return (
         <View style={[styles.container, containerStyle]}>
@@ -20,7 +20,7 @@ export function Input({ style, label, lightColor, darkColor, unit, containerStyl
             <View style={[styles.inputContainer, { backgroundColor, borderColor }]}>
                 <TextInput
                     style={[styles.input, { color }, style]}
-                    placeholderTextColor="#888"
+                    placeholderTextColor="#94A3B8"
                     {...otherProps}
                 />
                 {unit && <Text style={[styles.unit, { color }]}>{unit}</Text>}

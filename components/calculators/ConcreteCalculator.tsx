@@ -227,6 +227,19 @@ export function ConcreteCalculator({ initialData, isEditing = false, onResultCha
                             </View>
                         )}
 
+                        <View style={styles.resultRow}>
+                            <ThemedText style={{ fontSize: 14 }}>60lb Bags:</ThemedText>
+                            <ThemedText type="defaultSemiBold" style={{ color: '#0a7ea4' }}>
+                                {Math.ceil((result.totalVolume * 150) / 60)} bags
+                            </ThemedText>
+                        </View>
+                        <View style={styles.resultRow}>
+                            <ThemedText style={{ fontSize: 14 }}>80lb Bags:</ThemedText>
+                            <ThemedText type="defaultSemiBold" style={{ color: '#0a7ea4' }}>
+                                {Math.ceil((result.totalVolume * 150) / 80)} bags
+                            </ThemedText>
+                        </View>
+
                         <View style={[styles.resultRow, { marginTop: 8, paddingTop: 16, borderTopWidth: 1, borderTopColor: 'rgba(10, 126, 164, 0.2)' }]}>
                             <ThemedText style={{ fontSize: 14 }}>Concrete Needed (Exact):</ThemedText>
                             <ThemedText type="defaultSemiBold" style={{ color: '#666' }}>

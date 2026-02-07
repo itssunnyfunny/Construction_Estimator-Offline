@@ -19,16 +19,16 @@ const ProContext = createContext<ProContextType>({
 export const usePro = () => useContext(ProContext);
 
 export function ProProvider({ children }: { children: React.ReactNode }) {
-    const [isPro, setIsPro] = useState(true);
+    const [isPro, setIsPro] = useState(false);
 
     useEffect(() => {
-        // checkProStatus();
+        checkProStatus();
     }, []);
 
     const checkProStatus = async () => {
         try {
             const status = await AsyncStorage.getItem(PRO_STATUS_KEY);
-            // setIsPro(status === 'true');
+            setIsPro(status === 'true');
         } catch (e) {
             console.error('Failed to load pro status');
         }
